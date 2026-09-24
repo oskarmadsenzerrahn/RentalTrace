@@ -1,0 +1,249 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+
+    background: #0d1117;
+
+    color: #ffffff;
+}
+
+
+/* HEADER */
+
+header {
+
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 25px 8%;
+
+    border-bottom: 1px solid #222;
+}
+
+
+.logo {
+
+    font-size: 24px;
+    font-weight: bold;
+
+}
+
+.logo span {
+
+    color: #4ade80;
+
+}
+
+
+header p {
+
+    color: #999;
+
+}
+
+
+/* MAIN */
+
+main {
+
+    width: 90%;
+    max-width: 800px;
+
+    margin: auto;
+
+}
+
+
+/* HERO */
+
+.hero {
+
+    text-align: center;
+
+    padding: 80px 20px 50px;
+
+}
+
+
+.hero h1 {
+
+    font-size: 48px;
+
+    margin-bottom: 15px;
+
+}
+
+
+.hero p {
+
+    color: #9ca3af;
+
+    font-size: 18px;
+
+}
+
+
+/* CHECKER */
+
+.checker {
+
+    background: #161b22;
+
+    border: 1px solid #30363d;
+
+    border-radius: 14px;
+
+    padding: 35px;
+
+}
+
+
+.checker h2 {
+
+    margin-bottom: 30px;
+
+}
+
+
+label {
+
+    display: block;
+
+    margin-top: 20px;
+
+    margin-bottom: 8px;
+
+    color: #c9d1d9;
+
+}
+
+
+input,
+select {
+
+    width: 100%;
+
+    padding: 14px;
+
+    border-radius: 8px;
+
+    border: 1px solid #30363d;
+
+    background: #0d1117;
+
+    color: white;
+
+    font-size: 15px;
+
+}
+
+
+.question {
+
+    margin-top: 30px;
+
+}
+
+.question p {
+
+    margin-bottom: 10px;
+
+}
+
+
+/* BUTTON */
+
+button {
+
+    width: 100%;
+
+    margin-top: 35px;
+
+    padding: 16px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #4ade80;
+
+    color: #041008;
+
+    font-size: 17px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+}
+
+
+button:hover {
+
+    opacity: 0.9;
+
+}
+
+
+/* RESULT */
+
+.result {
+
+    margin-top: 30px;
+
+    padding: 35px;
+
+    background: #161b22;
+
+    border-radius: 14px;
+
+    text-align: center;
+
+}
+
+
+.score {
+
+    margin: 25px;
+
+}
+
+
+#score {
+
+    font-size: 60px;
+
+    font-weight: bold;
+
+}
+
+
+.hidden {
+
+    display: none;
+
+}
+
+
+/* FOOTER */
+
+footer {
+
+    text-align: center;
+
+    margin-top: 60px;
+
+    padding: 30px;
+
+    color: #666;
+
+    font-size: 13px;
+
+}

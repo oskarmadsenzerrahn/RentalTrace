@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ScamDetector</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+    <div class="logo">
+        Scam<span>Detector</span>
+    </div>
+
+    <p>Check en bolig før du sender penge.</p>
+</header>
+
+
+<main>
+
+    <section class="hero">
+
+        <h1>Er boligen ægte?</h1>
+
+        <p>
+            Indtast oplysningerne om boligen og få en hurtig
+            vurdering af risikoen for svindel.
+        </p>
+
+    </section>
+
+
+    <section class="checker">
+
+        <h2>Boligoplysninger</h2>
+
+        <label>Adresse</label>
+
+        <input
+            id="address"
+            type="text"
+            placeholder="Fx Vesterbrogade 20, København"
+        >
+
+
+        <label>Annonce URL</label>
+
+        <input
+            id="listing"
+            type="text"
+            placeholder="Airbnb, Facebook, boligportal osv."
+        >
+
+
+        <div class="question">
+
+            <p>Foregår kommunikationen primært på WhatsApp?</p>
+
+            <select id="whatsapp">
+                <option value="0">Nej</option>
+                <option value="20">Ja</option>
+            </select>
+
+        </div>
+
+
+        <div class="question">
+
+            <p>Vil udlejer have betaling via bankoverførsel?</p>
+
+            <select id="bankTransfer">
+                <option value="0">Nej</option>
+                <option value="30">Ja</option>
+            </select>
+
+        </div>
+
+
+        <div class="question">
+
+            <p>Har du set boligen fysisk eller på live video?</p>
+
+            <select id="viewing">
+                <option value="0">Ja</option>
+                <option value="20">Nej</option>
+            </select>
+
+        </div>
+
+
+        <div class="question">
+
+            <p>Er prisen markant lavere end lignende boliger?</p>
+
+            <select id="cheap">
+                <option value="0">Nej</option>
+                <option value="15">Ja</option>
+            </select>
+
+        </div>
+
+
+        <div class="question">
+
+            <p>Presser udlejer dig til at betale hurtigt?</p>
+
+            <select id="pressure">
+                <option value="0">Nej</option>
+                <option value="20">Ja</option>
+            </select>
+
+        </div>
+
+
+        <button onclick="checkRisk()">
+            Tjek bolig
+        </button>
+
+    </section>
+
+
+    <section id="result" class="result hidden">
+
+        <h2>Risikovurdering</h2>
+
+        <div class="score">
+
+            <span id="score">
+                0
+            </span>
+
+            <span>/100</span>
+
+        </div>
+
+        <h3 id="riskTitle"></h3>
+
+        <p id="riskDescription"></p>
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    <p>
+        RentalCheck giver kun en risikovurdering og kan ikke garantere,
+        at en bolig eller udlejer er legitim.
+    </p>
+
+</footer>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>

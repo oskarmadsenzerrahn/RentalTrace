@@ -16,8 +16,33 @@
         Scam<span>Detector</span>
     </div>
 
-    <p>Check en bolig før du sender penge.</p>
+    <div class="header-right">
+
+        <p>Check en bolig før du sender penge.</p>
+
+        <!-- Admin mode: viser testpanelet til mock-up-tjek -->
+        <button type="button" id="adminToggle" class="admin-switch" role="switch"
+                aria-checked="false" aria-controls="adminPanel">
+            <span class="admin-switch-track" aria-hidden="true"><span class="admin-switch-thumb"></span></span>
+            Admin
+        </button>
+
+    </div>
 </header>
+
+
+<!-- ADMIN-PANEL (testmenu). Indholdet bygges af script.js ud fra MOCK_CHECKS. -->
+<aside id="adminPanel" class="admin-panel hidden" aria-labelledby="adminPanelTitle">
+
+    <h2 id="adminPanelTitle">Admin · testmenu</h2>
+
+    <p class="admin-note">
+        Bestem, hvad mock-up-tjekkene finder. Gælder ved "Tjek bolig", og et vist resultat opdateres med det samme.
+    </p>
+
+    <div id="adminChecks"></div>
+
+</aside>
 
 
 <main>
@@ -27,8 +52,8 @@
         <h1>Er boligen ægte?</h1>
 
         <p>
-            Indtast oplysningerne om boligen og få en hurtig
-            vurdering af risikoen for svindel.
+            Indtast oplysningerne om boligen og få et overblik over
+            advarselstegn – og hvad du selv kan tjekke, før du betaler.
         </p>
 
     </section>
@@ -56,65 +81,169 @@
         >
 
 
+        <label for="landlordName">Udlejers navn</label>
+
+        <input
+            id="landlordName"
+            type="text"
+            placeholder="Navnet udlejer har opgivet"
+        >
+
+        <p class="field-hint">
+            Bruges til at sammenligne med ejeren i tingbogen.
+        </p>
+
+
+        <!--
+            Hvert spørgsmål:
+            data-sign   = kort navn på advarselstegnet, vist i resultatet
+            data-risk   = hvilket svar der er advarselstegnet ("ja" eller "nej")
+            "Vælg…" er valgt som standard og kan ikke vælges igen,
+            så et oversprunget spørgsmål aldrig tælles som "intet advarselstegn".
+        -->
+
         <div class="question">
 
-            <p>Foregår kommunikationen primært på WhatsApp?</p>
+            <div class="question-head">
+                <p id="whatsapp-label">Foregår kommunikationen primært på WhatsApp?</p>
+                <button type="button" class="info-btn" aria-expanded="false" aria-controls="whatsapp-hint"
+                        aria-label="Mere info om spørgsmålet">?</button>
+            </div>
 
-            <select id="whatsapp">
-                <option value="0">Nej</option>
-                <option value="20">Ja</option>
+            <p id="whatsapp-hint" class="hint hidden">
+                Svindlere flytter ofte samtalen væk fra boligsiden til WhatsApp eller lignende,
+                så platformens beskyttelse og spor forsvinder. Svar ja, hvis udlejer har bedt dig skrive der i stedet.
+            </p>
+
+            <select id="whatsapp" class="risk-question" data-sign="Kommunikation flyttet til WhatsApp" data-risk="ja"
+                    aria-labelledby="whatsapp-label" aria-describedby="whatsapp-error">
+                <option value="" disabled selected>Vælg…</option>
+                <option value="ja">Ja</option>
+                <option value="nej">Nej</option>
+                <option value="ved-ikke">Ved ikke</option>
             </select>
+
+            <p id="whatsapp-error" class="error-message hidden" role="alert">
+                Vælg et svar – eller "Ved ikke", hvis du er i tvivl.
+            </p>
 
         </div>
 
 
         <div class="question">
 
-            <p>Vil udlejer have betaling via bankoverførsel?</p>
+            <div class="question-head">
+                <p id="unsafePayment-label">Vil udlejer have betaling til en udenlandsk konto, via en anonym tjeneste (fx Western Union) eller kontant?</p>
+                <button type="button" class="info-btn" aria-expanded="false" aria-controls="unsafePayment-hint"
+                        aria-label="Mere info om spørgsmålet">?</button>
+            </div>
 
-            <select id="bankTransfer">
-                <option value="0">Nej</option>
-                <option value="30">Ja</option>
+            <p id="unsafePayment-hint" class="hint hidden">
+                Politiet anbefaler at betale via en dansk bank, så pengene kan spores. En almindelig overførsel
+                til en dansk konto er derfor ikke i sig selv et advarselstegn. Svar ja, hvis udlejer vil have
+                pengene til en udenlandsk konto (fx et IBAN, der ikke starter med DK), via pengeoverførselstjenester
+                som Western Union eller MoneyGram, eller kontant – de er svære eller umulige at spore og få tilbage.
+            </p>
+
+            <select id="unsafePayment" class="risk-question" data-sign="Betaling til udenlandsk konto, anonym tjeneste eller kontant" data-risk="ja"
+                    aria-labelledby="unsafePayment-label" aria-describedby="unsafePayment-error">
+                <option value="" disabled selected>Vælg…</option>
+                <option value="ja">Ja</option>
+                <option value="nej">Nej</option>
+                <option value="ved-ikke">Ved ikke</option>
             </select>
+
+            <p id="unsafePayment-error" class="error-message hidden" role="alert">
+                Vælg et svar – eller "Ved ikke", hvis du er i tvivl.
+            </p>
 
         </div>
 
 
         <div class="question">
 
-            <p>Har du set boligen fysisk eller på live video?</p>
+            <div class="question-head">
+                <p id="viewing-label">Har du set boligen fysisk eller på live video?</p>
+                <button type="button" class="info-btn" aria-expanded="false" aria-controls="viewing-hint"
+                        aria-label="Mere info om spørgsmålet">?</button>
+            </div>
 
-            <select id="viewing">
-                <option value="0">Ja</option>
-                <option value="20">Nej</option>
+            <p id="viewing-hint" class="hint hidden">
+                Svar kun ja, hvis du selv har været i boligen, eller udlejer har vist den live på video,
+                hvor du kunne bede om at se bestemte ting. Billeder og forudindspillede videoer tæller ikke.
+            </p>
+
+            <select id="viewing" class="risk-question" data-sign="Boligen er ikke set fysisk eller på live video" data-risk="nej"
+                    aria-labelledby="viewing-label" aria-describedby="viewing-error">
+                <option value="" disabled selected>Vælg…</option>
+                <option value="ja">Ja</option>
+                <option value="nej">Nej</option>
+                <option value="ved-ikke">Ved ikke</option>
             </select>
+
+            <p id="viewing-error" class="error-message hidden" role="alert">
+                Vælg et svar – eller "Ved ikke", hvis du er i tvivl.
+            </p>
 
         </div>
 
 
         <div class="question">
 
-            <p>Er prisen markant lavere end lignende boliger?</p>
+            <div class="question-head">
+                <p id="cheap-label">Er prisen markant lavere end lignende boliger?</p>
+                <button type="button" class="info-btn" aria-expanded="false" aria-controls="cheap-hint"
+                        aria-label="Mere info om spørgsmålet">?</button>
+            </div>
 
-            <select id="cheap">
-                <option value="0">Nej</option>
-                <option value="15">Ja</option>
+            <p id="cheap-hint" class="hint hidden">
+                Sammenlign med lignende lejligheder (samme område, størrelse og antal værelser) på fx Boligportal.
+            </p>
+
+            <select id="cheap" class="risk-question" data-sign="Prisen er markant lavere end lignende boliger" data-risk="ja"
+                    aria-labelledby="cheap-label" aria-describedby="cheap-error">
+                <option value="" disabled selected>Vælg…</option>
+                <option value="ja">Ja</option>
+                <option value="nej">Nej</option>
+                <option value="ved-ikke">Ved ikke</option>
             </select>
+
+            <p id="cheap-error" class="error-message hidden" role="alert">
+                Vælg et svar – eller "Ved ikke", hvis du er i tvivl.
+            </p>
 
         </div>
 
 
         <div class="question">
 
-            <p>Presser udlejer dig til at betale hurtigt?</p>
+            <div class="question-head">
+                <p id="pressure-label">Presser udlejer dig til at betale hurtigt?</p>
+                <button type="button" class="info-btn" aria-expanded="false" aria-controls="pressure-hint"
+                        aria-label="Mere info om spørgsmålet">?</button>
+            </div>
 
-            <select id="pressure">
-                <option value="0">Nej</option>
-                <option value="20">Ja</option>
+            <p id="pressure-hint" class="hint hidden">
+                Fx "mange andre er interesserede", "betal i dag for at sikre dig boligen"
+                eller krav om depositum før du har set boligen.
+            </p>
+
+            <select id="pressure" class="risk-question" data-sign="Pres for at betale hurtigt" data-risk="ja"
+                    aria-labelledby="pressure-label" aria-describedby="pressure-error">
+                <option value="" disabled selected>Vælg…</option>
+                <option value="ja">Ja</option>
+                <option value="nej">Nej</option>
+                <option value="ved-ikke">Ved ikke</option>
             </select>
+
+            <p id="pressure-error" class="error-message hidden" role="alert">
+                Vælg et svar – eller "Ved ikke", hvis du er i tvivl.
+            </p>
 
         </div>
 
+
+        <p id="form-error" class="error-message form-error hidden" role="alert"></p>
 
         <button onclick="checkRisk()">
             Tjek bolig
@@ -123,23 +252,194 @@
     </section>
 
 
-    <section id="result" class="result hidden">
+    <section id="result" class="result hidden" tabindex="-1" aria-labelledby="riskTitle">
 
-        <h2>Risikovurdering</h2>
+        <!-- Ingen dom over boligen: vi viser, hvad vi ved, og hvad du kan gøre -->
 
-        <div class="score">
+        <h2 id="riskTitle">Det fandt vi</h2>
 
-            <span id="score">
-                0
-            </span>
+        <p class="result-intro">
+            Her er, hvad dine svar og vores tjek viser. Vi vurderer ikke, om boligen er ægte –
+            brug punkterne til at undersøge den videre, før du betaler noget.
+        </p>
 
-            <span>/100</span>
+        <ul id="signList" class="sign-list"></ul>
+
+        <!-- Historik: anmeldelser knyttet til adressen, uanset annoncens status -->
+        <div id="history" class="history">
+
+            <h3>Anmeldelser på adressen</h3>
+
+            <p id="historySummary"></p>
+
+            <ul id="historyList" class="history-list"></ul>
 
         </div>
 
-        <h3 id="riskTitle"></h3>
 
-        <p id="riskDescription"></p>
+        <!--
+            NÆSTE SKRIDT
+            data-related = id'er på spørgsmål/tjek, som skridtet hænger sammen med.
+            Er et af dem "til stede" eller "ukendt", markeres skridtet som særligt relevant.
+        -->
+        <div class="next-steps">
+
+            <h3>Næste skridt</h3>
+
+            <ol id="stepList" class="step-list">
+
+                <li class="step" data-related="tinglysning">
+                    <strong>Tjek ejeren på tinglysning</strong>
+                    <p>
+                        Søg adressen på <a href="https://www.tinglysning.dk" target="_blank" rel="noopener">tinglysning.dk</a>
+                        og se, hvem der står som ejer. Matcher navnet ikke udlejer, så bed om ejerens
+                        skriftlige tilladelse til fremleje.
+                    </p>
+                    <p class="step-reason hidden"></p>
+                </li>
+
+                <li class="step" data-related="shortTermRental,viewing">
+                    <strong>Lav en omvendt billedsøgning</strong>
+                    <p>
+                        Søg på annoncens billeder med
+                        <a href="https://lens.google.com" target="_blank" rel="noopener">Google Lens</a> eller
+                        <a href="https://tineye.com" target="_blank" rel="noopener">TinEye</a>.
+                        Dukker de op i andre annoncer, fx på Airbnb eller i en anden by, er de sandsynligvis kopieret.
+                    </p>
+                    <p class="step-reason hidden"></p>
+                </li>
+
+                <li class="step" data-related="cheap">
+                    <strong>Sammenlign huslejen</strong>
+                    <p>
+                        Find lignende lejligheder (samme område, størrelse og antal værelser) på fx
+                        <a href="https://www.boligportal.dk" target="_blank" rel="noopener">Boligportal</a>.
+                        En pris langt under de andre er et klassisk lokkemiddel.
+                    </p>
+                    <p class="step-reason hidden"></p>
+                </li>
+
+                <li class="step" data-related="unsafePayment,pressure,viewing">
+                    <strong>Betal aldrig, før du har set en kontrakt</strong>
+                    <p>
+                        Betal hverken depositum eller husleje, før du har en underskrevet lejekontrakt – og helst har
+                        set boligen. Betal via en dansk bank, aldrig kontant eller via Western Union og lignende.
+                    </p>
+                    <p class="step-reason hidden"></p>
+                </li>
+
+                <li class="step" data-related="">
+                    <strong>Anmeld annoncen, hvis noget ikke stemmer</strong>
+                    <p>
+                        Brug platformens "Rapportér annonce"-funktion, og anmeld den her, så historikken bliver
+                        hængende ved adressen. Har du allerede betalt, så kontakt din bank med det samme og anmeld
+                        det til politiet på <a href="https://politi.dk" target="_blank" rel="noopener">politi.dk</a>.
+                    </p>
+                </li>
+
+            </ol>
+
+        </div>
+
+        <button type="button" class="reset-btn" onclick="startReport()">
+            Anmeld denne annonce
+        </button>
+
+        <button type="button" class="reset-btn" onclick="resetForm()">
+            Tjek en ny bolig
+        </button>
+
+    </section>
+
+
+    <!-- ANMELD EN ANNONCE (mock-up) -->
+
+    <section id="report" class="checker report">
+
+        <h2>Anmeld en annonce</h2>
+
+        <p class="mockup-note">
+            <strong>Prototype:</strong> anmeldelser gemmes kun i din egen browser.
+            Prøv fx at tjekke adressen <em>Eksempelvej 12, København</em> for at se en historik med eksempeldata.
+        </p>
+
+        <p class="report-intro">
+            Anmeldelsen knyttes til <strong>adressen</strong> – ikke kun til annoncen. Selv hvis annoncen
+            bliver slettet eller markeret som "udlejet", kan de næste, der tjekker adressen, stadig se den.
+        </p>
+
+        <label for="reportAddress">Adresse *</label>
+
+        <input
+            id="reportAddress"
+            type="text"
+            placeholder="Fx Vesterbrogade 20, København"
+            aria-describedby="reportAddress-error"
+        >
+
+        <p id="reportAddress-error" class="error-message hidden" role="alert">
+            Skriv adressen, så anmeldelsen kan knyttes til den.
+        </p>
+
+
+        <label for="reportListing">Annonce URL</label>
+
+        <input
+            id="reportListing"
+            type="text"
+            placeholder="Airbnb, Facebook, boligportal osv."
+        >
+
+
+        <label for="reportReason">Hvad skete der? *</label>
+
+        <select id="reportReason" aria-describedby="reportReason-error">
+            <option value="" disabled selected>Vælg…</option>
+            <option>Udlejer forsvandt efter betaling</option>
+            <option>Boligen kunne ikke fremvises</option>
+            <option>Boligen findes ikke eller tilhører en anden</option>
+            <option>Krav om betaling til udenlandsk konto, anonym tjeneste eller kontant</option>
+            <option>Falske eller kopierede billeder</option>
+            <option>Andet</option>
+        </select>
+
+        <p id="reportReason-error" class="error-message hidden" role="alert">
+            Vælg, hvad der skete.
+        </p>
+
+
+        <label for="reportStatus">Annoncens status nu</label>
+
+        <select id="reportStatus">
+            <option value="aktiv">Stadig aktiv</option>
+            <option value="udlejet">Markeret som "udlejet"</option>
+            <option value="fjernet">Slettet / fjernet</option>
+            <option value="ukendt">Ved ikke</option>
+        </select>
+
+
+        <label for="reportDescription">Beskriv kort, hvad der skete</label>
+
+        <textarea
+            id="reportDescription"
+            rows="4"
+            placeholder="Fx hvordan kontakten foregik, og hvad udlejer bad om. Skriv ikke personnumre eller kontonumre."
+        ></textarea>
+
+
+        <button type="button" onclick="submitReport()">
+            Send anmeldelse
+        </button>
+
+        <div id="reportConfirmation" class="report-confirmation hidden" role="status" tabindex="-1">
+
+            <h3>Tak – anmeldelsen er gemt</h3>
+
+            <p id="reportConfirmationText"></p>
+
+            <ul id="reportHistoryList" class="history-list"></ul>
+
+        </div>
 
     </section>
 
@@ -149,7 +449,7 @@
 <footer>
 
     <p>
-        RentalCheck giver kun en risikovurdering og kan ikke garantere,
+        RentalCheck viser kun information og kan ikke garantere,
         at en bolig eller udlejer er legitim.
     </p>
 

@@ -265,17 +265,6 @@
 
         <ul id="signList" class="sign-list"></ul>
 
-        <!-- Historik: anmeldelser knyttet til adressen, uanset annoncens status -->
-        <div id="history" class="history">
-
-            <h3>Anmeldelser på adressen</h3>
-
-            <p id="historySummary"></p>
-
-            <ul id="historyList" class="history-list"></ul>
-
-        </div>
-
 
         <!--
             NÆSTE SKRIDT
@@ -331,8 +320,8 @@
                 <li class="step" data-related="">
                     <strong>Anmeld annoncen, hvis noget ikke stemmer</strong>
                     <p>
-                        Brug platformens "Rapportér annonce"-funktion, og anmeld den her, så historikken bliver
-                        hængende ved adressen. Har du allerede betalt, så kontakt din bank med det samme og anmeld
+                        Brug platformens "Rapportér annonce"-funktion. Har du allerede betalt, så kontakt din bank
+                        med det samme og anmeld
                         det til politiet på <a href="https://politi.dk" target="_blank" rel="noopener">politi.dk</a>.
                     </p>
                 </li>
@@ -341,107 +330,12 @@
 
         </div>
 
-        <button type="button" class="reset-btn" onclick="startReport()">
-            Anmeld denne annonce
-        </button>
-
         <button type="button" class="reset-btn" onclick="resetForm()">
             Tjek en ny bolig
         </button>
 
     </section>
 
-
-    <!-- ANMELD EN ANNONCE (mock-up) -->
-
-    <section id="report" class="checker report">
-
-        <h2>Anmeld en annonce</h2>
-
-        <p class="mockup-note">
-            <strong>Prototype:</strong> anmeldelser gemmes kun i din egen browser.
-            Prøv fx at tjekke adressen <em>Eksempelvej 12, København</em> for at se en historik med eksempeldata.
-        </p>
-
-        <p class="report-intro">
-            Anmeldelsen knyttes til <strong>adressen</strong> – ikke kun til annoncen. Selv hvis annoncen
-            bliver slettet eller markeret som "udlejet", kan de næste, der tjekker adressen, stadig se den.
-        </p>
-
-        <label for="reportAddress">Adresse *</label>
-
-        <input
-            id="reportAddress"
-            type="text"
-            placeholder="Fx Vesterbrogade 20, København"
-            aria-describedby="reportAddress-error"
-        >
-
-        <p id="reportAddress-error" class="error-message hidden" role="alert">
-            Skriv adressen, så anmeldelsen kan knyttes til den.
-        </p>
-
-
-        <label for="reportListing">Annonce URL</label>
-
-        <input
-            id="reportListing"
-            type="text"
-            placeholder="Airbnb, Facebook, boligportal osv."
-        >
-
-
-        <label for="reportReason">Hvad skete der? *</label>
-
-        <select id="reportReason" aria-describedby="reportReason-error">
-            <option value="" disabled selected>Vælg…</option>
-            <option>Udlejer forsvandt efter betaling</option>
-            <option>Boligen kunne ikke fremvises</option>
-            <option>Boligen findes ikke eller tilhører en anden</option>
-            <option>Krav om betaling til udenlandsk konto, anonym tjeneste eller kontant</option>
-            <option>Falske eller kopierede billeder</option>
-            <option>Andet</option>
-        </select>
-
-        <p id="reportReason-error" class="error-message hidden" role="alert">
-            Vælg, hvad der skete.
-        </p>
-
-
-        <label for="reportStatus">Annoncens status nu</label>
-
-        <select id="reportStatus">
-            <option value="aktiv">Stadig aktiv</option>
-            <option value="udlejet">Markeret som "udlejet"</option>
-            <option value="fjernet">Slettet / fjernet</option>
-            <option value="ukendt">Ved ikke</option>
-        </select>
-
-
-        <label for="reportDescription">Beskriv kort, hvad der skete</label>
-
-        <textarea
-            id="reportDescription"
-            rows="4"
-            placeholder="Fx hvordan kontakten foregik, og hvad udlejer bad om. Skriv ikke personnumre eller kontonumre."
-        ></textarea>
-
-
-        <button type="button" onclick="submitReport()">
-            Send anmeldelse
-        </button>
-
-        <div id="reportConfirmation" class="report-confirmation hidden" role="status" tabindex="-1">
-
-            <h3>Tak – anmeldelsen er gemt</h3>
-
-            <p id="reportConfirmationText"></p>
-
-            <ul id="reportHistoryList" class="history-list"></ul>
-
-        </div>
-
-    </section>
 
 </main>
 

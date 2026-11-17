@@ -1,156 +1,813 @@
 <!DOCTYPE html>
-<html lang="da">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <title>ScamDetector</title>
+    <title>RentalTrace</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
 </head>
+
 
 <body>
 
 <header>
+
     <div class="logo">
-        Scam<span>Detector</span>
+        Rental<span>Trace</span>
     </div>
 
-    <p>Check en bolig før du sender penge.</p>
+
+    <div class="header-right">
+
+        <p>
+            Check a rental before renting
+        </p>
+
+
+        <button
+            type="button"
+            id="adminToggle"
+            class="admin-switch"
+            role="switch"
+            aria-checked="false"
+            aria-controls="adminPanel"
+        >
+
+            <span
+                class="admin-switch-track"
+                aria-hidden="true"
+            >
+                <span
+                    class="admin-switch-thumb"
+                ></span>
+            </span>
+
+            Admin
+
+        </button>
+
+    </div>
+
 </header>
+
+
+
+<aside
+    id="adminPanel"
+    class="admin-panel hidden"
+    aria-labelledby="adminPanelTitle"
+>
+
+    <h2 id="adminPanelTitle">
+        Admin · Test Menu
+    </h2>
+
+
+    <p class="admin-note">
+        Choose what the mock-up checks should find.
+        The settings are applied when "Check Rental" is pressed,
+        and the results update immediately.
+    </p>
+
+
+    <div id="adminChecks"></div>
+
+</aside>
+
 
 
 <main>
 
     <section class="hero">
 
-        <h1>Er boligen ægte?</h1>
+        <h1>
+            Is the rental verified?
+        </h1>
+
 
         <p>
-            Indtast oplysningerne om boligen og få en hurtig
-            vurdering af risikoen for svindel.
+            Enter information about the rental and get an overview
+            of potential warning signs so you can investigate them
+            before making any payment.
         </p>
 
     </section>
 
 
+
     <section class="checker">
 
-        <h2>Boligoplysninger</h2>
+        <h2>
+            Rental Information
+        </h2>
 
-        <label>Adresse</label>
+
+        <label for="address">
+            Address
+        </label>
 
         <input
             id="address"
             type="text"
-            placeholder="Fx Vesterbrogade 20, København"
+            placeholder="e.g. Vesterbrogade 20, Copenhagen"
         >
 
 
-        <label>Annonce URL</label>
+        <label for="listing">
+            Rental URL
+        </label>
 
         <input
             id="listing"
             type="text"
-            placeholder="Airbnb, Facebook, boligportal osv."
+            placeholder="Airbnb, Facebook, rental portal, etc."
         >
 
 
+        <label for="landlordName">
+            Landlord's Name
+        </label>
+
+        <input
+            id="landlordName"
+            type="text"
+            placeholder="Name provided by the landlord"
+        >
+
+
+        <p class="field-hint">
+            Used to cross-reference the landlord
+            with public records.
+        </p>
+
+
+
+        <!-- WHATSAPP -->
+
         <div class="question">
 
-            <p>Foregår kommunikationen primært på WhatsApp?</p>
+            <div class="question-head">
 
-            <select id="whatsapp">
-                <option value="0">Nej</option>
-                <option value="20">Ja</option>
+                <p id="whatsapp-label">
+                    Is communication conducted primarily on WhatsApp
+                    or a similar platform?
+                </p>
+
+
+                <button
+                    type="button"
+                    class="info-btn"
+                    aria-expanded="false"
+                    aria-controls="whatsapp-hint"
+                    aria-label="More information about this question"
+                >
+                    ?
+                </button>
+
+            </div>
+
+
+            <p
+                id="whatsapp-hint"
+                class="hint hidden"
+            >
+                Scammers may attempt to move communication away from
+                the official rental platform to a separate messaging
+                service. Choose Yes if the landlord has moved or
+                attempted to move communication to another platform.
+            </p>
+
+
+            <select
+                id="whatsapp"
+                class="risk-question"
+                data-sign="Communication moved to WhatsApp or another platform"
+                data-risk="ja"
+                aria-labelledby="whatsapp-label"
+                aria-describedby="whatsapp-error"
+            >
+
+                <option
+                    value=""
+                    disabled
+                    selected
+                >
+                    Choose...
+                </option>
+
+                <option value="ja">
+                    Yes
+                </option>
+
+                <option value="nej">
+                    No
+                </option>
+
+                <option value="ved-ikke">
+                    Unknown
+                </option>
+
             </select>
+
+
+            <p
+                id="whatsapp-error"
+                class="error-message hidden"
+                role="alert"
+            >
+                Choose an answer — or "Unknown" if you are unsure.
+            </p>
 
         </div>
 
 
+
+        <!-- PAYMENT -->
+
         <div class="question">
 
-            <p>Vil udlejer have betaling via bankoverførsel?</p>
+            <div class="question-head">
 
-            <select id="bankTransfer">
-                <option value="0">Nej</option>
-                <option value="30">Ja</option>
+                <p id="unsafePayment-label">
+                    Does the landlord request payment to a foreign
+                    bank account, through an anonymous transfer service
+                    such as Western Union, or in cash?
+                </p>
+
+
+                <button
+                    type="button"
+                    class="info-btn"
+                    aria-expanded="false"
+                    aria-controls="unsafePayment-hint"
+                    aria-label="More information about this question"
+                >
+                    ?
+                </button>
+
+            </div>
+
+
+            <p
+                id="unsafePayment-hint"
+                class="hint hidden"
+            >
+                A normal transfer to a Danish bank account is not
+                automatically a warning sign. Choose Yes if the landlord
+                requests payment to a foreign account, through services
+                such as Western Union or MoneyGram, or in cash.
+            </p>
+
+
+            <select
+                id="unsafePayment"
+                class="risk-question"
+                data-sign="Payment requested through a foreign account, anonymous service, or cash"
+                data-risk="ja"
+                aria-labelledby="unsafePayment-label"
+                aria-describedby="unsafePayment-error"
+            >
+
+                <option
+                    value=""
+                    disabled
+                    selected
+                >
+                    Choose...
+                </option>
+
+                <option value="ja">
+                    Yes
+                </option>
+
+                <option value="nej">
+                    No
+                </option>
+
+                <option value="ved-ikke">
+                    Unknown
+                </option>
+
             </select>
+
+
+            <p
+                id="unsafePayment-error"
+                class="error-message hidden"
+                role="alert"
+            >
+                Choose an answer — or "Unknown" if you are unsure.
+            </p>
 
         </div>
 
 
+
+        <!-- VIEWING -->
+
         <div class="question">
 
-            <p>Har du set boligen fysisk eller på live video?</p>
+            <div class="question-head">
 
-            <select id="viewing">
-                <option value="0">Ja</option>
-                <option value="20">Nej</option>
+                <p id="viewing-label">
+                    Have you viewed the property physically
+                    or through a live video call?
+                </p>
+
+
+                <button
+                    type="button"
+                    class="info-btn"
+                    aria-expanded="false"
+                    aria-controls="viewing-hint"
+                    aria-label="More information about this question"
+                >
+                    ?
+                </button>
+
+            </div>
+
+
+            <p
+                id="viewing-hint"
+                class="hint hidden"
+            >
+                Choose Yes only if you have personally visited the
+                property, or if the landlord showed it through a live
+                video call where you could request to see specific parts.
+                Photos and prerecorded videos do not count.
+            </p>
+
+
+            <select
+                id="viewing"
+                class="risk-question"
+                data-sign="Property has not been viewed physically or through live video"
+                data-risk="nej"
+                aria-labelledby="viewing-label"
+                aria-describedby="viewing-error"
+            >
+
+                <option
+                    value=""
+                    disabled
+                    selected
+                >
+                    Choose...
+                </option>
+
+                <option value="ja">
+                    Yes
+                </option>
+
+                <option value="nej">
+                    No
+                </option>
+
+                <option value="ved-ikke">
+                    Unknown
+                </option>
+
             </select>
+
+
+            <p
+                id="viewing-error"
+                class="error-message hidden"
+                role="alert"
+            >
+                Choose an answer — or "Unknown" if you are unsure.
+            </p>
 
         </div>
 
 
+
+        <!-- PRICE -->
+
         <div class="question">
 
-            <p>Er prisen markant lavere end lignende boliger?</p>
+            <div class="question-head">
 
-            <select id="cheap">
-                <option value="0">Nej</option>
-                <option value="15">Ja</option>
+                <p id="cheap-label">
+                    Is the price significantly lower than similar
+                    rental properties?
+                </p>
+
+
+                <button
+                    type="button"
+                    class="info-btn"
+                    aria-expanded="false"
+                    aria-controls="cheap-hint"
+                    aria-label="More information about this question"
+                >
+                    ?
+                </button>
+
+            </div>
+
+
+            <p
+                id="cheap-hint"
+                class="hint hidden"
+            >
+                Compare the rent with similar properties in the same
+                area, with a similar size and number of rooms,
+                for example on BoligPortal.
+            </p>
+
+
+            <select
+                id="cheap"
+                class="risk-question"
+                data-sign="Price is significantly lower than comparable rental properties"
+                data-risk="ja"
+                aria-labelledby="cheap-label"
+                aria-describedby="cheap-error"
+            >
+
+                <option
+                    value=""
+                    disabled
+                    selected
+                >
+                    Choose...
+                </option>
+
+                <option value="ja">
+                    Yes
+                </option>
+
+                <option value="nej">
+                    No
+                </option>
+
+                <option value="ved-ikke">
+                    Unknown
+                </option>
+
             </select>
+
+
+            <p
+                id="cheap-error"
+                class="error-message hidden"
+                role="alert"
+            >
+                Choose an answer — or "Unknown" if you are unsure.
+            </p>
 
         </div>
 
 
+
+        <!-- PRESSURE -->
+
         <div class="question">
 
-            <p>Presser udlejer dig til at betale hurtigt?</p>
+            <div class="question-head">
 
-            <select id="pressure">
-                <option value="0">Nej</option>
-                <option value="20">Ja</option>
+                <p id="pressure-label">
+                    Is the landlord pressuring you to make
+                    a payment quickly?
+                </p>
+
+
+                <button
+                    type="button"
+                    class="info-btn"
+                    aria-expanded="false"
+                    aria-controls="pressure-hint"
+                    aria-label="More information about this question"
+                >
+                    ?
+                </button>
+
+            </div>
+
+
+            <p
+                id="pressure-hint"
+                class="hint hidden"
+            >
+                Examples include "many other people are interested",
+                "pay today to secure the property",
+                or a request for a deposit before you have viewed
+                the property.
+            </p>
+
+
+            <select
+                id="pressure"
+                class="risk-question"
+                data-sign="Pressure to make payment quickly"
+                data-risk="ja"
+                aria-labelledby="pressure-label"
+                aria-describedby="pressure-error"
+            >
+
+                <option
+                    value=""
+                    disabled
+                    selected
+                >
+                    Choose...
+                </option>
+
+                <option value="ja">
+                    Yes
+                </option>
+
+                <option value="nej">
+                    No
+                </option>
+
+                <option value="ved-ikke">
+                    Unknown
+                </option>
+
             </select>
+
+
+            <p
+                id="pressure-error"
+                class="error-message hidden"
+                role="alert"
+            >
+                Choose an answer — or "Unknown" if you are unsure.
+            </p>
 
         </div>
 
 
-        <button onclick="checkRisk()">
-            Tjek bolig
+
+        <p
+            id="form-error"
+            class="error-message form-error hidden"
+            role="alert"
+        ></p>
+
+
+        <button
+            type="button"
+            onclick="checkRisk()"
+        >
+            Check Rental
         </button>
 
     </section>
 
 
-    <section id="result" class="result hidden">
 
-        <h2>Risikovurdering</h2>
+    <section
+        id="result"
+        class="result hidden"
+        tabindex="-1"
+        aria-labelledby="riskTitle"
+    >
 
-        <div class="score">
+        <h2 id="riskTitle">
+            What We Found
+        </h2>
 
-            <span id="score">
-                0
-            </span>
 
-            <span>/100</span>
+        <p class="result-intro">
+            Here is what your answers and our checks indicate.
+            We do not determine whether the rental is legitimate
+            or fraudulent. Use the findings below to investigate
+            further before making any payment.
+        </p>
+
+
+        <ul
+            id="signList"
+            class="sign-list"
+        ></ul>
+
+
+
+        <div class="next-steps">
+
+            <h3>
+                Next Steps
+            </h3>
+
+
+            <ol
+                id="stepList"
+                class="step-list"
+            >
+
+
+                <li
+                    class="step"
+                    data-related="tinglysning"
+                >
+
+                    <strong>
+                        Check the registered property owner
+                    </strong>
+
+
+                    <p>
+                        Search the address on
+                        <a
+                            href="https://www.tinglysning.dk"
+                            target="_blank"
+                            rel="noopener"
+                        >
+                            tinglysning.dk
+                        </a>
+
+                        and check who is registered as the owner.
+
+                        If the owner's name does not match the landlord,
+                        ask for written authorization from the owner
+                        confirming that the property may be sublet.
+                    </p>
+
+
+                    <p
+                        class="step-reason hidden"
+                    ></p>
+
+                </li>
+
+
+
+                <li
+                    class="step"
+                    data-related="shortTermRental,viewing"
+                >
+
+                    <strong>
+                        Perform a reverse image search
+                    </strong>
+
+
+                    <p>
+                        Search the listing's images using
+
+                        <a
+                            href="https://lens.google.com"
+                            target="_blank"
+                            rel="noopener"
+                        >
+                            Google Lens
+                        </a>
+
+                        or
+
+                        <a
+                            href="https://tineye.com"
+                            target="_blank"
+                            rel="noopener"
+                        >
+                            TinEye
+                        </a>.
+
+                        If the same images appear in other listings,
+                        such as Airbnb or listings in another city,
+                        investigate whether they have been reused.
+                    </p>
+
+
+                    <p
+                        class="step-reason hidden"
+                    ></p>
+
+                </li>
+
+
+
+                <li
+                    class="step"
+                    data-related="cheap"
+                >
+
+                    <strong>
+                        Compare the rent with similar properties
+                    </strong>
+
+
+                    <p>
+                        Find comparable properties with a similar
+                        location, size, and number of rooms,
+                        for example on
+
+                        <a
+                            href="https://www.boligportal.dk"
+                            target="_blank"
+                            rel="noopener"
+                        >
+                            BoligPortal
+                        </a>.
+
+                        A price substantially below comparable listings
+                        can be a warning sign.
+                    </p>
+
+
+                    <p
+                        class="step-reason hidden"
+                    ></p>
+
+                </li>
+
+
+
+                <li
+                    class="step"
+                    data-related="unsafePayment,pressure,viewing"
+                >
+
+                    <strong>
+                        Do not pay before reviewing a rental contract
+                    </strong>
+
+
+                    <p>
+                        Do not pay a deposit or rent before receiving
+                        and reviewing a signed rental agreement,
+                        and preferably after viewing the property.
+
+                        Use a traceable bank transfer where possible.
+                        Avoid cash payments or services such as
+                        Western Union.
+                    </p>
+
+
+                    <p
+                        class="step-reason hidden"
+                    ></p>
+
+                </li>
+
+
+
+                <li
+                    class="step"
+                    data-related=""
+                >
+
+                    <strong>
+                        Report the listing if something does not match
+                    </strong>
+
+
+                    <p>
+                        Use the platform's "Report listing" function.
+
+                        If you have already transferred money,
+                        contact your bank immediately and report
+                        the incident to the police at
+
+                        <a
+                            href="https://politi.dk"
+                            target="_blank"
+                            rel="noopener"
+                        >
+                            politi.dk
+                        </a>.
+                    </p>
+
+                </li>
+
+            </ol>
 
         </div>
 
-        <h3 id="riskTitle"></h3>
 
-        <p id="riskDescription"></p>
+
+        <button
+            type="button"
+            class="reset-btn"
+            onclick="resetForm()"
+        >
+            Check Another Rental
+        </button>
 
     </section>
 
 </main>
 
 
+
 <footer>
 
     <p>
-        RentalCheck giver kun en risikovurdering og kan ikke garantere,
-        at en bolig eller udlejer er legitim.
+        RentalTrace provides information only and cannot guarantee
+        that a rental property or landlord is legitimate.
     </p>
 
 </footer>
